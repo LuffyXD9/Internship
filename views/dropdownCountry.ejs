@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <title>CSC DropDown</title>
+  <style>
+    .main{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .anyClass {
+    height:200px;
+    overflow-y: scroll;
+    }
+    .btnsize{
+    padding: 1.3rem 2.0rem;
+    font-size: 1.5rem;
+    line-height: 1.5;
+    border-radius: 0.3rem;
+    }
+    .shadow{
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+  </style>
+</head>
+
+<body> 
+  <nav class="navbar navbar-dark bg-dark mb-5" style="background-color: #023c66;">
+    <a class="navbar-brand" ><span style="color: #ffff;">DropDown</span></a>
+    <form class="form-inline">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </nav>
+  
+
+  <div class="container-flex main border border-success m-5 rounded shadow"  >
+    <div class="dropdown m-3 flex  " style="display: inline-flex;">
+      <button class="btn btn-outline-success dropdown-toggle btnsize" type="button" id="dropdownMenu2" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false">
+        COUNTRY
+      </button>
+      <div class="dropdown-menu " aria-labelledby="dropdownMenu2">
+ 
+        <% for(var i=0; i < locals.country.length; i++) { %>
+          <form method="POST" action="/state">
+            <input type="text" name="username" value="<%= locals.country[i].id %>" hidden/>
+            <button class="dropdown-item loaderBtn" id="<%= locals.country[i].id %>" type="submit" value="<%= locals.country[i].id %>" ><%= locals.country[i].name %>
+            </button>
+            <input type="submit" hidden/>
+          </form>
+          <% } %>
+        
+      </div>
+    </div>
+
+    <div class="dropdown m-5 " >
+      <button class="btn btn-outline-secondary dropdown-toggle btnsize" type="button" id="dropdownMenu2" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false">
+        STATE
+      </button>
+      <div class="dropdown-menu anyClass" aria-labelledby="dropdownMenu2">
+        <% if(locals.state) {%>
+        <% for(var i=0; i < locals.state.length; i++) { %>
+          <form method="POST" action="/state/cities">
+            <input type="text" name="username" value="<%= locals.state[i].id %>" hidden/>
+            <button class="dropdown-item loaderBtn" id="<%= locals.state[i].id %>" type="submit" value="<%= locals.state[i].id %>" ><%= locals.state[i].name %>
+            </button>
+            <input type="submit" hidden/>
+          </form>
+          <% } %>
+          <% } %>
+        
+      </div>
+    </div>
+
+    <div class="dropdown m-5" >
+      <button class="btn btn-outline-info dropdown-toggle btnsize" type="button" id="dropdownMenu2" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false">
+        CITY
+      </button>
+      <% if(locals.cities) {%>
+      <div class="dropdown-menu anyClass" aria-labelledby="dropdownMenu2">
+        <% for(var i=0; i < locals.cities.length; i++) { %>
+            <button class="dropdown-item loaderBtn" id="<%= locals.cities[i].id %>" type="submit" value="<%= locals.cities[i].id %>" ><%= locals.cities[i].name %>
+            </button>
+          <% } %>
+          
+        </div>
+        <% } %>
+    </div>
+  </div>
+
+  <div class="container-flex main border border-success m-5 rounded shadow p-3"  >
+    <div class="card text-white bg-success m-3" style="max-width: 18rem;">
+      <div class="card-header">Country</div>
+      <div class="card-body">
+        <h5 class="card-title">Select country name.</h5>
+        <p class="card-text">Select a country to view its specific states.</p>
+      </div>
+    </div>
+
+    <div class="card text-white bg-secondary m-3" style="max-width: 18rem;">
+      <div class="card-header">State</div>
+      <div class="card-body">
+        <h5 class="card-title">Select state name.</h5>
+        <p class="card-text">Select a state to view its specific cities.</p>
+      </div>
+    </div>
+
+    <div class="card text-white bg-info m-3" style="max-width: 18rem;">
+      <div class="card-header">City</div>
+      <div class="card-body">
+        <h5 class="card-title">List of all cities.</h5>
+        <p class="card-text">List of all the cities of a particular state will be visible here.</p>
+      </div>
+    </div>
+    
+  </div>
+    
+  <script>
+    const buttons = document.querySelectorAll('.loaderBtn');
+
+    // buttons.forEach(button => {
+    //   button.addEventListener('click', (event) => {
+    //     const clickedButtonId = event.target.id;
+    //     console.log(clickedButtonId);
+        
+    //   });
+    // });
+  </script>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>
